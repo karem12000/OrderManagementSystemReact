@@ -14,6 +14,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
     const [showOrdersModal, setShowOrdersModal] = useState(false);
+    const [isLoading,setIsLoading]  = useState(false);
 
     const [registerInfo, setRegisterInfo] = useState({
         email: '',
@@ -36,6 +37,7 @@ const Login = () => {
                     timer: 2000,
                 });
             }else{
+                setIsLoading(true);
                 const response = await axios.post(`${API_BASE_URL}People/Customer/Login`, {
                     username,
                     password,
@@ -73,6 +75,8 @@ const Login = () => {
             }
         } catch (error) {
             console.error('Login error:', error);
+        }finally{
+            setIsLoading(false);
         }
     };
 
@@ -153,7 +157,9 @@ const Login = () => {
                         placeholder="Enter Password"
                     />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit" className="login-btn" disabled={isLoading}>
+                {isLoading ? 'Loging in...' : 'Login'}
+                </button>
                 <button onClick={handleOrderNavigation} className="order-button">
                   Order Products
                 </button>

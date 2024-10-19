@@ -34,6 +34,10 @@ body {
     color: #555;
 }
 
+.login-btn:disabled{
+    background-color: #4f4fe6;
+}
+
 .login-container input[type="text"],
 .login-container input[type="password"] {
     padding: 10px;
