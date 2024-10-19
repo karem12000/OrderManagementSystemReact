@@ -69,7 +69,6 @@ const OrderList = () => {
   };
 
   const handleAcceptOrder = async (id) => {
-    console.log(id)
     try{
     const response = await fetch(`${API_BASE_URL}Guide/Order/AcceptOrder?id=${id}`, {
       method: 'POST',
@@ -119,7 +118,6 @@ const OrderList = () => {
   };
   
   const handleCancelOrder = async (id) => {
-    console.log(id)
     const response = await fetch(`${API_BASE_URL}Guide/Order/CancelOrder?id=${id}`, {
       method: 'POST',
       headers: {
