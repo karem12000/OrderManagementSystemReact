@@ -24,10 +24,10 @@ const AddProduct = ({ onClose, onProductAdded }) => {
 
         if (!productName) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'الاسم مطلوب',
+                title: 'Alert',
+                text: 'Name is required',
                 icon: 'error',
-                confirmButtonText: 'موافق', 
+                confirmButtonText: 'ok', 
                 timer: 2000,
                 showCancelButton: false, 
                 allowOutsideClick: false, 
@@ -38,10 +38,10 @@ const AddProduct = ({ onClose, onProductAdded }) => {
 
         if (price <= 0) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'سعر المنتج غير صحيح',
+                title: 'Alert',
+                text: 'The product price is incorrect',
                 icon: 'error',
-                confirmButtonText: 'موافق', 
+                confirmButtonText: 'ok', 
                 timer: 2000,
                 showCancelButton: false, 
                 allowOutsideClick: false, 
@@ -52,10 +52,10 @@ const AddProduct = ({ onClose, onProductAdded }) => {
 
         if (quantity <= 0) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'كمية المنتج غير صحيحة',
+                title: 'Alert',
+                text: 'Incorrect product quantity',
                 icon: 'error',
-                confirmButtonText: 'موافق', 
+                confirmButtonText: 'ok', 
                 timer: 2000,
                 showCancelButton: false, 
                 allowOutsideClick: false, 
@@ -77,10 +77,10 @@ const AddProduct = ({ onClose, onProductAdded }) => {
             const result = await response.json();
             if (result.status) {
                 Swal.fire({
-                    title: 'تنبيه',
+                    title: 'Alert',
                     text: result.message,
                     icon: 'success',
-                    confirmButtonText: 'موافق', 
+                    confirmButtonText: 'ok', 
                     timer: 2000,
                     showCancelButton: false, 
                     allowOutsideClick: false, 
@@ -91,10 +91,10 @@ const AddProduct = ({ onClose, onProductAdded }) => {
                 setQuantity('');
             } else {
                 Swal.fire({
-                    title: 'تنبيه',
+                    title: 'Alert',
                     text: result.message,
                     icon: 'error',
-                    confirmButtonText: 'موافق', 
+                    confirmButtonText: 'ok', 
                     timer: 2000,
                     showCancelButton: false, 
                     allowOutsideClick: false, 
@@ -102,10 +102,10 @@ const AddProduct = ({ onClose, onProductAdded }) => {
             }
         } catch (error) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'حدث خطأ',
+                title: 'Alert',
+                text: 'An error occurred',
                 icon: 'error',
-                confirmButtonText: 'موافق', 
+                confirmButtonText: 'ok', 
                 timer: 2000,
                 showCancelButton: false, 
                 allowOutsideClick: false, 
@@ -118,10 +118,10 @@ const AddProduct = ({ onClose, onProductAdded }) => {
     return (
         <div className="addProductmodal">
             <div className="addProductmodal-content">
-                <h2>إضافة منتج</h2>
+                <h2>Add Product</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="productName">اسم المنتج :</label>
+                        <label htmlFor="productName">ProductName:</label>
                         <input
                             type="text"
                             id="productName"
@@ -130,7 +130,7 @@ const AddProduct = ({ onClose, onProductAdded }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="price">السعر :</label>
+                        <label htmlFor="price">Price:</label>
                         <input
                             type="number"
                             id="price"
@@ -141,7 +141,7 @@ const AddProduct = ({ onClose, onProductAdded }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="quantity">الكمية بالمخزن :</label>
+                        <label htmlFor="quantity">Quantity in Stock:</label>
                         <input
                             type="number"
                             id="quantity"
@@ -152,10 +152,10 @@ const AddProduct = ({ onClose, onProductAdded }) => {
                     </div>
                     <div className="addProductmodal-actions">
                         <button type="submit" className="add-product-button" disabled={isLoading}>
-                            {isLoading ? 'جاري الإضافة...' : 'إضافة'}
+                            {isLoading ? 'Adding...' : 'Add'}
                         </button>
                         <button type="button" className="close-button" onClick={onClose}>
-                            إلغاء
+                            Cancel
                         </button>
                     </div>
                 </form>

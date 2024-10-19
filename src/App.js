@@ -13,6 +13,7 @@ import AddCustomer from './components/customerComponents/AddCustomer';
 import CustomerList from './components/customerComponents/CustomerList';
 import { getToken } from './Utility/cookieUtils';
 import { useEffect } from 'react';
+import UnAutorized from './components/homeComponents/UnAuthorized';
 
 function App() {
   const navigate = useNavigate();
@@ -32,11 +33,11 @@ function App() {
       {location.pathname !== '/login' && <Header />}
       <Routes>
         <Route path="/Login" element={<Login />} />
+        <Route path="/unauthorized" element={<UnAutorized />} />
         <Route path="/AddProduct" element={<AddProduct />} />
         <Route path="/Products" element={<ProductList />} />
         <Route path="/EditProduct/:id" element={<EditProduct />} />
         <Route path="/ProductCardList" element={<ProductCardList />} />
-        {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/customers" element={<CustomerList />} />
         <Route path="/AddCustomer" element={<AddCustomer />} />
         <Route path="/users" element={<UserTable />} />

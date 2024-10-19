@@ -10,10 +10,10 @@ const ChangePassword = ({ onClose, onChangePassword }) => {
   const validatePasswords = () => {
     if (!currentPassword || !newPassword || !confirmNewPassword) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'من فضلك أدخل جميع الحقول',
+        title: 'Alert',
+        text: 'Please enter all fields',
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -23,10 +23,10 @@ const ChangePassword = ({ onClose, onChangePassword }) => {
 
     if (newPassword !== confirmNewPassword) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'تأكيد كلمة المرور غير مطابق لكلمة المرور الجديدة',
+        title: 'Alert',
+        text: 'Confirm password does not match new password',
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -36,10 +36,10 @@ const ChangePassword = ({ onClose, onChangePassword }) => {
 
     if (newPassword !== currentPassword) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'كلمة المرور الجديدة مطابقة لكلمة المرور الحالية',
+        title: 'Alert',
+        text: 'New password matches current password',
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -69,10 +69,10 @@ const ChangePassword = ({ onClose, onChangePassword }) => {
   return (
     <div className="changePassword-modal">
       <div className="changePassword-modal-content">
-        <h2>تغيير كلمة المرور</h2>
+        <h2>change password</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="currentPassword">كلمة المرور الحالية</label>
+            <label htmlFor="currentPassword">Current Password</label>
             <input
               type="password"
               id="currentPassword"
@@ -81,7 +81,7 @@ const ChangePassword = ({ onClose, onChangePassword }) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="newPassword">كلمة المرور الجديدة</label>
+            <label htmlFor="newPassword">New Password</label>
             <input
               type="password"
               id="newPassword"
@@ -90,7 +90,7 @@ const ChangePassword = ({ onClose, onChangePassword }) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="confirmNewPassword">تأكيد كلمة المرور الجديدة</label>
+            <label htmlFor="confirmNewPassword">Confirm new password</label>
             <input
               type="password"
               id="confirmNewPassword"
@@ -99,8 +99,8 @@ const ChangePassword = ({ onClose, onChangePassword }) => {
             />
           </div>
           <div className="btn-container">
-          <button type="submit" className="btn">حفظ</button>
-          <button className="btn-cancel" onClick={onClose}>إغلاق</button>
+          <button type="submit" className="btn">Save</button>
+          <button className="btn-cancel" onClick={onClose}>Close</button>
           </div>
         </form>
       </div>

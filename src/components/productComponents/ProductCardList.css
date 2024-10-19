@@ -36,6 +36,7 @@
     border: none;
     padding: 10px;
     cursor: pointer;
+    border-radius: 5px;
   }
   
   .add-to-cart-btn:hover, .complete-order-btn:hover {
@@ -61,18 +62,19 @@
     position: fixed; 
     bottom: 20px;   
     right: 20px;     
-    background-color: #007bff;
+    background-color: #008000;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 1000; 
+    z-index: 2; 
     transition: background-color 0.3s;
+    font-size: 1.5rem;
   }
   
   .complete-order-btn:hover {
-    background-color: #0056b3; }
+    background-color: #015f01; }
 
   .filter-btn {
     padding: 8px 12px;

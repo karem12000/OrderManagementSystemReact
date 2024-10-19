@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import API_BASE_URL from '../../config/apiConfig';
-import Cookies from 'js-cookie';
 import './EditProduct.css'; 
 import Swal from 'sweetalert2';
 import { getToken } from '../../Utility/cookieUtils';
@@ -29,10 +28,10 @@ const EditProductModal = ({ productId, onClose, onProductUpdated }) => {
           setProduct(data.data);
         } else {
           Swal.fire({
-            title: 'تنبيه',
+            title: 'Alert',
             text:data.message,
             icon: 'error',
-            confirmButtonText: 'موافق', 
+            confirmButtonText: 'ok', 
             timer: 2000,
             showCancelButton: false, 
             allowOutsideClick: false, 
@@ -54,10 +53,10 @@ const EditProductModal = ({ productId, onClose, onProductUpdated }) => {
 
     if (!product.name) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'الاسم مطلوب',
+        title: 'Alert',
+        text: 'Name is required',
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -68,10 +67,10 @@ const EditProductModal = ({ productId, onClose, onProductUpdated }) => {
 
     if (product.price <= 0) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'سعر المنتج غير صحيح',
+        title: 'Alert',
+        text: 'The product price is incorrect',
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -82,10 +81,10 @@ const EditProductModal = ({ productId, onClose, onProductUpdated }) => {
 
     if (product.stockQuantity <= 0) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'كمية المنتج غير صحيحة',
+        title: 'Alert',
+        text: 'Incorrect product quantity',
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -112,10 +111,10 @@ const EditProductModal = ({ productId, onClose, onProductUpdated }) => {
        const data = await response.json();
       if (data.status) {
         Swal.fire({
-          title: 'تنبيه',
+          title: 'Alert',
           text: data.message,
           icon: 'success',
-          confirmButtonText: 'موافق', 
+          confirmButtonText: 'ok', 
           timer: 2000,
           showCancelButton: false, 
           allowOutsideClick: false, 
@@ -124,10 +123,10 @@ const EditProductModal = ({ productId, onClose, onProductUpdated }) => {
         onClose(); 
       } else {
         Swal.fire({
-          title: 'تنبيه',
+          title: 'Alert',
           text: data.message,
           icon: 'error',
-          confirmButtonText: 'موافق', 
+          confirmButtonText: 'ok', 
           timer: 2000,
           showCancelButton: false, 
           allowOutsideClick: false, 
@@ -141,20 +140,20 @@ const EditProductModal = ({ productId, onClose, onProductUpdated }) => {
   };
 
   if (loading) {
-    return <div>جاري التحميل...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>خطأ: {error}</div>;
+    return <div>Error: {error}</div>;
   }
 
   return (
     <div className="editProductModal">
       <div className="editProductModal-content">
-        <h2>تعديل المنتج</h2>
+        <h2>Edit Product</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <label>الاسم:</label>
+            <label>Name:</label>
             <input
               type="text"
               value={product.name}
@@ -162,7 +161,7 @@ const EditProductModal = ({ productId, onClose, onProductUpdated }) => {
             />
           </div>
           <div>
-            <label>السعر:</label>
+            <label>Price:</label>
             <input
               type="number"
               value={product.price}
@@ -170,7 +169,7 @@ const EditProductModal = ({ productId, onClose, onProductUpdated }) => {
             />
           </div>
           <div>
-            <label>الكمية:</label>
+            <label>Quantity:</label>
             <input
               type="number"
               value={product.stockQuantity}
@@ -178,8 +177,8 @@ const EditProductModal = ({ productId, onClose, onProductUpdated }) => {
             />
           </div>
           <div className="editProductModal-buttons">
-          <button type="submit" className="update-btn">تعديل</button>
-            <button type="button" onClick={onClose} className="close-btn">إغلاق</button>
+          <button type="submit" className="update-btn">Edit</button>
+            <button type="button" onClick={onClose} className="close-btn">Close</button>
           </div>
         </form>
       </div>

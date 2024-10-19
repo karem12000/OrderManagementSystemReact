@@ -67,10 +67,10 @@ const ProductCardList = () => {
   const handleAddToCart = (product) => {
     if (product.requiredQuantity <= 0) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'يرجى إدخال كمية صحيحة',
+        title: 'Alert',
+        text: 'Please enter a valid quantity',
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -80,10 +80,10 @@ const ProductCardList = () => {
 
     if (product.requiredQuantity > product.stockQuantity) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'الكمية المطلوبة أكبر من المتاحة في المخزون!',
+        title: 'Alert',
+        text: 'The quantity requested is greater than the available quantity in stock!',
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -96,10 +96,10 @@ const ProductCardList = () => {
     if (existingCartItem) {
       if (existingCartItem.requiredQuantity + product.requiredQuantity > existingCartItem.stockQuantity) {
         Swal.fire({
-          title: 'تنبيه',
-          text: 'لا يمكن إضافة الكمية المطلوبة. الكمية المطلوبة أكبر من المتاحة في المخزون!',
+          title: 'Alert',
+          text: 'The requested quantity cannot be added. The requested quantity is greater than the available quantity in stock!',
           icon: 'error',
-          confirmButtonText: 'موافق', 
+          confirmButtonText: 'ok', 
           timer: 2000,
           showCancelButton: false, 
           allowOutsideClick: false, 
@@ -131,8 +131,8 @@ const ProductCardList = () => {
     );
 
     Swal.fire({
-      title: 'تنبيه',
-      text: `تمت الإضافة بنجاح`,
+      title: 'Alert',
+      text: `Added successfully`,
       icon: 'success',
       showConfirmButton: false,
       timer: 1000
@@ -159,6 +159,20 @@ const ProductCardList = () => {
     };
 
     try {
+      if(!userInfo.name || !userInfo.email || !userInfo.phone || !userInfo.address || !userInfo.dob){
+        Swal.fire({
+          title: 'Alert',
+          text: 'Please enter all Personal Data',
+          icon: 'error',
+          confirmButtonText: 'ok', 
+          timer: 2000,
+          showCancelButton: false, 
+          allowOutsideClick: false, 
+        });
+        return;
+      }
+      
+
       const response = await fetch(`${API_BASE_URL}Guide/Order/PlaceOrder`, {
         method: 'POST',
         headers: {
@@ -169,12 +183,13 @@ const ProductCardList = () => {
       });
 
       const result = await response.json();
+
       if (result.status) {
         Swal.fire({
-          title: 'تنبيه',
-          text: `تم إكمال الطلب بنجاح!`,
+          title: 'Alert',
+          text: `The request has been completed successfully!`,
           icon: 'success',
-          confirmButtonText: 'موافق', 
+          confirmButtonText: 'ok', 
           timer: 2000,
           showCancelButton: false, 
           allowOutsideClick: false, 
@@ -184,10 +199,10 @@ const ProductCardList = () => {
         setUserInfo({ name: '', email: '', phone: '', address: '', dob: '' }); 
       } else {
         Swal.fire({
-          title: 'تنبيه',
-          text: `خطأ في إكمال الطلب يرجاء المحاولة مرة أخري`,
+          title: 'Alert',
+          text: `Error completing the request, please try again`,
           icon: 'error',
-          confirmButtonText: 'موافق', 
+          confirmButtonText: 'ok', 
           timer: 2000,
           showCancelButton: false, 
           allowOutsideClick: false, 
@@ -196,10 +211,10 @@ const ProductCardList = () => {
 
     } catch (error) {
       Swal.fire({
-        title: 'تنبيه',
+        title: 'Alert',
         text: error.message,
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -231,58 +246,58 @@ const ProductCardList = () => {
   };
 
   if (loading) {
-    return <div>جاري التحميل...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>خطأ: {error}</div>;
+    return <div>Error: {error}</div>;
   }
 
   return (
     <div className="product-list">
-      <h1>قائمة المنتجات</h1>
+      <h1>Products List</h1>
       
       <div className="search-filter-container">
         <input
           type="text"
-          placeholder="بحث في المنتجات..."
+          placeholder="Search in Products..."
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
         <input
           type="number"
-          placeholder="الحد الأدنى للسعر"
+          placeholder="Minimum price"
           value={minPrice}
           onChange={(e) => setMinPrice(e.target.value)}
           className="price-input"
         />
         <input
           type="number"
-          placeholder="الحد الأقصى للسعر"
+          placeholder="Maximum price"
           value={maxPrice}
           onChange={(e) => setMaxPrice(e.target.value)}
           className="price-input"
         />
         <button onClick={handleFilter} className="filter-btn">
-          بحث
+          Search
         </button>
         <button onClick={handleClear} className="clear-btn">
-          مسح
+          Clear
         </button>
       </div>
 
       {products.length === 0 ? (
-        <p className="no-products-message">لا توجد منتجات</p> 
+        <p className="no-products-message">No Products Found</p> 
       ) : (
         <div className="card-container">
           {products.map((product) => (
             <div className="product-card" key={product.id}>
               <h3>{product.name}</h3>
-              <p>السعر: {product.price} جنيه</p>
-              <p>الكمية المتاحة: {product.stockQuantity}</p>
+              <p>Price: {product.price}$</p>
+              <p>Avilable Quantity: {product.stockQuantity}</p>
               
               <div className="quantity-section">
-                <label htmlFor={`quantity-${product.id}`}>الكمية المطلوبة</label>
+                <label htmlFor={`quantity-${product.id}`}>Required Quantity</label>
                 <input
                   type="number"
                   id={`quantity-${product.id}`}
@@ -297,7 +312,7 @@ const ProductCardList = () => {
                 onClick={() => handleAddToCart(product)}
                 className="add-to-cart-btn"
               >
-                إضافة إلى السلة
+                Add To Cart
               </button>
             </div>
           ))}
@@ -306,7 +321,7 @@ const ProductCardList = () => {
   
       {cart.length > 0 && (
         <button className="complete-order-btn" onClick={handleCompleteOrder}>
-          إكمال الطلب
+          Complete Order
         </button>
       )}
       

@@ -22,8 +22,8 @@ const AddUser = ({ onClose, onUserAdded }) => {
 
         if (!fullName) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'الاسم مطلوب',
+                title: 'Alert',
+                text: 'Name is required',
                 icon: 'error',
                 confirmButtonText: 'OK',
                 timer: 2000,
@@ -36,8 +36,8 @@ const AddUser = ({ onClose, onUserAdded }) => {
 
         if (!email) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'البريد الإلكتروني مطلوب',
+                title: 'Alert',
+                text: 'Email required',
                 icon: 'error',
                 confirmButtonText: 'OK',
                 timer: 2000,
@@ -50,8 +50,8 @@ const AddUser = ({ onClose, onUserAdded }) => {
 
         if (!password) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'كلمة المرور مطلوبه',
+                title: 'Alert',
+                text: 'Password required',
                 icon: 'error',
                 confirmButtonText: 'OK',
                 timer: 2000,
@@ -75,7 +75,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
             const result = await response.json();
             if (result.status) {
                 Swal.fire({
-                    title: 'تنبيه',
+                    title: 'Alert',
                     text: result.message,
                     icon: 'success',
                     confirmButtonText: 'OK',
@@ -89,7 +89,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
                 setPassword('');
             } else {
                 Swal.fire({
-                    title: 'تنبيه',
+                    title: 'Alert',
                     text: result.message,
                     icon: 'error',
                     confirmButtonText: 'OK',
@@ -100,8 +100,8 @@ const AddUser = ({ onClose, onUserAdded }) => {
             }
         } catch (error) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'حدث خطأ',
+                title: 'Alert',
+                text: 'An error occurred',
                 icon: 'error',
                 confirmButtonText: 'OK',
                 timer: 2000,
@@ -116,10 +116,10 @@ const AddUser = ({ onClose, onUserAdded }) => {
     return (
         <div className="addUserModal">
             <div className="addUserModal-content">
-                <h2>إضافة مستخدم</h2>
+                <h2>Add User</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="fullName">الاسم:</label>
+                        <label htmlFor="fullName">Name:</label>
                         <input
                             type="text"
                             id="fullName"
@@ -129,7 +129,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="email">البريد الإلكتروني:</label>
+                        <label htmlFor="email">Email:</label>
                         <input
                             type="email"
                             id="email"
@@ -139,7 +139,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="password">كلمة المرور:</label>
+                        <label htmlFor="password">Password:</label>
                         <input
                             type="password"
                             id="password"
@@ -150,10 +150,10 @@ const AddUser = ({ onClose, onUserAdded }) => {
                     </div>
                     <div className="addUserModal-actions">
                         <button type="submit" className="add-user-button" disabled={isLoading}>
-                            {isLoading ? 'جاري الإضافه...' : 'إضافة'}
+                            {isLoading ? 'Adding...' : 'Add'}
                         </button>
                         <button type="button" className="close-button" onClick={onClose}>
-                            إغلاق
+                            Close
                         </button>
                     </div>
                 </form>

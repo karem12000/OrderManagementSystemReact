@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AddCustomer from './AddCustomer';
 import EditCustomerModal from './EditCustomer';
 import Swal from 'sweetalert2';
-import { getToken, getUserId } from '../../Utility/cookieUtils';
+import { getToken, getUserId, getUserType } from '../../Utility/cookieUtils';
 
 const CustomerList = () => {
     const navigate = useNavigate();
@@ -20,9 +20,6 @@ const CustomerList = () => {
     const itemsPerPage = 10;
 
     const fetchCustomers = async () => {
-        if (!getUserId()) {
-            navigate('/login');
-        } else {
             try {
                 const response = await fetch(`${API_BASE_URL}People/Customer/GetAllCustomers`, {
                     method: 'POST',
@@ -46,21 +43,26 @@ const CustomerList = () => {
             } finally {
                 setLoading(false);
             }
-        }
     };
 
     useEffect(() => {
+        if (!getUserId()) {
+            navigate('/login');
+        }else if(getUserType()!=='ad'){
+            navigate('/unauthorized');
+        }else {
         fetchCustomers();
+        }
     }, [currentPage, searchTerm]);
 
     const handleDelete = (id) => {
         Swal.fire({
-            title: 'تأكيد الحذف',
-            text: 'حذف العميل؟',
+            title: 'Delete Process',
+            text: 'Do you want to delete customer?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'حذف',
-            cancelButtonText: 'إغلاق',
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Close',
             reverseButtons: true,
         }).then(async (result) => {
             if (result.isConfirmed) {
@@ -76,7 +78,7 @@ const CustomerList = () => {
                     const data = await response.json();
                     if (data.status) {
                         Swal.fire({
-                            title: 'عملية الحذف',
+                            title: 'Delete process',
                             text: data.message,
                             icon: 'success',
                             timer: 1000,
@@ -87,7 +89,7 @@ const CustomerList = () => {
                         setCustomers((prevCustomers) => prevCustomers.filter((customer) => customer.id !== id));
                     } else {
                         Swal.fire({
-                            title: 'تنبيه',
+                            title: 'Alert',
                             text: data.message,
                             icon: 'error',
                             timer: 2000,
@@ -97,7 +99,7 @@ const CustomerList = () => {
                         });
                     }
                 } catch (error) {
-                    console.log('خطأ', 'حدث خطأ أثناء الحذف', 'error');
+                    console.log('Error', 'An error occurred while deleting', 'error');
                 }
             }
         });
@@ -127,13 +129,13 @@ const CustomerList = () => {
     };
 
     if (loading) {
-        return <div>جاري التحميل...</div>;
+        return <div>Loading...</div>;
     }
 
     return (
         <div className="customer-list">
             <button onClick={() => setShowAddCustomerModal(true)} className="add-customer-btn">
-                إضافة عميل
+            Add Customer
             </button>
             {showAddCustomerModal && (
                 <AddCustomer
@@ -149,17 +151,17 @@ const CustomerList = () => {
                     onCustomerUpdated={handleCustomerUpdated}
                 />
             )}
-            <h1 className="product-list-title">قائمة العملاء</h1> 
+            <h1 className="product-list-title">Customer List</h1> 
             <table className="styled-table">
                 <thead>
                     <tr>
-                        <th>م</th>
-                        <th>الاسم</th>
-                        <th>البريد الإلكتروني</th>
-                        <th>رقم الهاتف</th>
-                        <th>العنوان</th>
-                        <th>تاريخ الميلاد</th>
-                        <th>الحدث</th>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Date Of Birth</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -167,7 +169,7 @@ const CustomerList = () => {
                         <td colSpan="7">
                             <input
                                 type="text"
-                                placeholder="بحث في العملاء..."
+                                placeholder="Search in cutomers..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="search-input"
@@ -177,7 +179,7 @@ const CustomerList = () => {
                     {customers.length === 0 ? (
                         <tr>
                             <td colSpan="7" style={{ textAlign: 'center' }}>
-                                لايوجد عملاء
+                                No Customers Found
                             </td>
                         </tr>
                     ) : (
@@ -191,10 +193,10 @@ const CustomerList = () => {
                                 <td>{customer.dateOfBirthStr}</td>
                                 <td>
                                     <button onClick={() => handleEdit(customer.id)} className="edit-btn">
-                                        تعديل
+                                        Edit
                                     </button>
                                     <button onClick={() => handleDelete(customer.id)} className="delete-btn">
-                                        حذف
+                                        Delete
                                     </button>
                                 </td>
                             </tr>

@@ -29,10 +29,10 @@ const EditUserModal = ({ userId, onClose, onUserUpdated }) => {
           setUser(data.data);
         } else {
           Swal.fire({
-            title: 'تنبيه',
+            title: 'Alert',
             text: data.message,
             icon: 'error',
-            confirmButtonText: 'موافق',
+            confirmButtonText: 'ok',
             timer: 2000,
             showCancelButton: false,
             allowOutsideClick: false,
@@ -54,10 +54,10 @@ const EditUserModal = ({ userId, onClose, onUserUpdated }) => {
 
     if (!user.fullName) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'الاسم مطلوب',
+        title: 'Alert',
+        text: 'Name is required',
         icon: 'error',
-        confirmButtonText: 'موافق',
+        confirmButtonText: 'ok',
         timer: 2000,
         showCancelButton: false,
         allowOutsideClick: false,
@@ -68,10 +68,10 @@ const EditUserModal = ({ userId, onClose, onUserUpdated }) => {
 
     if (!user.email) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'البريد الإلكتروني مطلوب',
+        title: 'Alert',
+        text: 'Email is required',
         icon: 'error',
-        confirmButtonText: 'موافق',
+        confirmButtonText: 'ok',
         timer: 2000,
         showCancelButton: false,
         allowOutsideClick: false,
@@ -97,10 +97,10 @@ const EditUserModal = ({ userId, onClose, onUserUpdated }) => {
       const data = await response.json();
       if (data.status) {
         Swal.fire({
-          title: 'تنبيه',
+          title: 'Alert',
           text: data.message,
           icon: 'success',
-          confirmButtonText: 'موافق',
+          confirmButtonText: 'ok',
           timer: 2000,
           showCancelButton: false,
           allowOutsideClick: false,
@@ -109,10 +109,10 @@ const EditUserModal = ({ userId, onClose, onUserUpdated }) => {
         onClose();
       } else {
         Swal.fire({
-          title: 'تنبيه',
+          title: 'Alert',
           text: data.message,
           icon: 'error',
-          confirmButtonText: 'موافق',
+          confirmButtonText: 'ok',
           timer: 2000,
           showCancelButton: false,
           allowOutsideClick: false,
@@ -126,20 +126,20 @@ const EditUserModal = ({ userId, onClose, onUserUpdated }) => {
   };
 
   if (loading) {
-    return <div>جاري التحميل...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>خطأ: {error}</div>;
+    return <div>Error: {error}</div>;
   }
 
   return (
     <div className="editUserModal">
       <div className="editUserModal-content">
-        <h2>تعديل المستخدم</h2>
+        <h2>Edit User</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>الاسم:</label>
+            <label>Name:</label>
             <input
               type="text"
               value={user.fullName}
@@ -147,7 +147,7 @@ const EditUserModal = ({ userId, onClose, onUserUpdated }) => {
             />
           </div>
           <div className="form-group">
-            <label>البريد الإلكتروني:</label>
+            <label>Email:</label>
             <input
               type="email"
               value={user.email}
@@ -155,8 +155,8 @@ const EditUserModal = ({ userId, onClose, onUserUpdated }) => {
             />
           </div>
           <div className="editUserModal-buttons">
-            <button type="submit" className="update-btn">تعديل</button>
-            <button type="button" onClick={onClose} className="close-btn">إغلاق</button>
+            <button type="submit" className="update-btn">Edit</button>
+            <button type="button" onClick={onClose} className="close-btn">Close</button>
           </div>
         </form>
       </div>

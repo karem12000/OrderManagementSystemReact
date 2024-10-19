@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AddProduct from './AddProduct';
 import EditProductModal from './EditProduct';
 import Swal from 'sweetalert2';
-import { getToken, getUserId } from '../../Utility/cookieUtils';
+import { getToken, getUserId, getUserType } from '../../Utility/cookieUtils';
 
 const ProductTable = () => {
   const navigate = useNavigate();
@@ -44,13 +44,15 @@ const ProductTable = () => {
             search: searchTerm,
             minPrice: minPrice || null,
             maxPrice: maxPrice || null,
+            isGetAll:getUserType()==='ad',
           }),
         });
-
         const data = await response.json();
-        setProducts(data.items);
-        const totalProducts = data.totalCount;
-        setTotalPages(Math.ceil(totalProducts / itemsPerPage));
+        if(data.items){
+          setProducts(data.items);
+          const totalProducts = data.totalCount;
+          setTotalPages(Math.ceil(totalProducts / itemsPerPage));
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -75,12 +77,12 @@ const ProductTable = () => {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: 'عملية الحذف',
-      text: 'هل تريد حذف هذا المنتج',
+      title: 'Delete process',
+      text: 'Do you want to delete this product?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'حذف',
-      cancelButtonText: 'إغلاق',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Close',
       reverseButtons: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -96,10 +98,10 @@ const ProductTable = () => {
           const data = await response.json();
           if (data.status) {
             Swal.fire({
-              title: 'عملية الحذف',
-              text: 'تم الحذف بنجاح',
+              title: 'Delete Process',
+              text: data.message,
               icon: 'success',
-              confirmButtonText: 'موافق',
+              confirmButtonText: 'ok',
               timer: 1000,
               showCancelButton: false,
               showConfirmButton:false,
@@ -108,10 +110,10 @@ const ProductTable = () => {
             setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
           } else {
             Swal.fire({
-              title: 'عملية الحذف',
+              title: 'Delete Process',
               text: data.message,
               icon: 'error',
-              confirmButtonText: 'موافق',
+              confirmButtonText: 'ok',
               timer: 2000,
               showCancelButton: false,
               showConfirmButton:false,
@@ -119,7 +121,7 @@ const ProductTable = () => {
             });
           }
         } catch (error) {
-          console.log('خطأ', 'حدث خطأ أثناء الحذف', 'error');
+          console.log('Error', 'An error occurred while deleting', 'error');
         }
       }
     });
@@ -162,19 +164,19 @@ const ProductTable = () => {
   };
 
   if (loading) {
-    return <div>جاري التحميل...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>خطأ: {error}</div>;
+    return <div>Error: {error}</div>;
   }
 
   return (
     <div className="product-table">
       <button onClick={() => setShowAddProductModal(true)} className="add-product-btn">
-        إضافة منتج
+      Add Product
       </button>
-      <h1 className="product-list-title">قائمة المنتجات</h1> 
+      <h1 className="product-list-title">Products List</h1> 
       {showAddProductModal && (
         <AddProduct
           onClose={() => setShowAddProductModal(false)}
@@ -193,11 +195,11 @@ const ProductTable = () => {
       <table className="styled-table">
         <thead>
           <tr>
-            <th>م</th>
-            <th>الاسم</th>
-            <th>السعر</th>
-            <th>الكمية</th>
-            <th>الحدث</th>
+            <th>#</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -206,7 +208,7 @@ const ProductTable = () => {
               <div className="filter-container">
                 <input
                   type="text"
-                  placeholder="بحث في المنتجات..."
+                  placeholder="Search in Products..."
                   value={searchTerm}
                   ref={searchInputRef}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -215,21 +217,21 @@ const ProductTable = () => {
                 <div className="price-filter">
                   <input
                     type="number"
-                    placeholder="أدنى سعر"
+                    placeholder="Minimum Price"
                     value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value)}
                   />
                   <input
                     type="number"
-                    placeholder="أقصى سعر"
+                    placeholder="Maximum Price"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
                   />
                   <button onClick={handleFilter} className="filter-btn">
-                    بحث
+                    Search
                   </button>
                   <button onClick={handleClear} className="clear-btn">
-                    مسح
+                    Clear
                   </button>
                 </div>
               </div>
@@ -238,7 +240,7 @@ const ProductTable = () => {
           {products.length === 0 ? (
             <tr>
               <td colSpan="5" style={{ textAlign: 'center' }}>
-                لاتوجد منتجات
+                No Products Found
               </td>
             </tr>
           ) : (
@@ -250,10 +252,10 @@ const ProductTable = () => {
                 <td>{product.stockQuantity}</td>
                 <td>
                   <button onClick={() => handleEdit(product.id)} className="edit-btn">
-                    تعديل
+                    Edit
                   </button>
                   <button onClick={() => handleDelete(product.id)} className="delete-btn">
-                    حذف
+                    Delete
                   </button>
                 </td>
               </tr>

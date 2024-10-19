@@ -48,6 +48,7 @@ label {
     margin-bottom: 5px;
 }
 
+.editCustomer-modal
 input[type="text"],
 input[type="email"],
 input[type="tel"],
@@ -58,9 +59,9 @@ input[type="date"] {
     border-radius: 4px;
     box-sizing: border-box;
     transition: border-color 0.3s ease-in-out;
-    direction: rtl;
 }
 
+.editCustomer-modal
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,

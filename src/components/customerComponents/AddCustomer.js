@@ -26,10 +26,10 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
 
         if (!name) {
             Swal.fire({
-                title: 'تنبيه',
+                title: 'Alert',
                 text: 'الاسم مطلوب',
                 icon: 'error',
-                confirmButtonText: 'موافق',
+                confirmButtonText: 'ok',
                 timer: 2000,
                 showConfirmButton:false,
                 showCancelButton: false,
@@ -41,10 +41,10 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
 
         if (!email) {
             Swal.fire({
-                title: 'تنبيه',
+                title: 'Alert',
                 text: 'البريد الإلكتروني مطلوب',
                 icon: 'error',
-                confirmButtonText: 'موافق',
+                confirmButtonText: 'ok',
                 showConfirmButton:false,
                 timer: 2000,
                 showCancelButton: false,
@@ -56,10 +56,10 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
 
         if (!phone) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'رقم الهاتف مطلوب',
+                title: 'Alert',
+                text: 'Phone number required',
                 icon: 'error',
-                confirmButtonText: 'موافق',
+                confirmButtonText: 'ok',
                 showConfirmButton:false,
                 timer: 2000,
                 showCancelButton: false,
@@ -71,10 +71,10 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
 
         if (!address) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'العنوان مطلوب',
+                title: 'Alert',
+                text: 'Address required',
                 icon: 'error',
-                confirmButtonText: 'موافق',
+                confirmButtonText: 'ok',
                 showConfirmButton:false,
                 timer: 2000,
                 showCancelButton: false,
@@ -86,10 +86,10 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
 
         if (!dateOfBirth) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'تاريخ الميلاد مطلوب',
+                title: 'Alert',
+                text: 'Date of birth required',
                 icon: 'error',
-                confirmButtonText: 'موافق',
+                confirmButtonText: 'ok',
                 showConfirmButton:false,
                 timer: 2000,
                 showCancelButton: false,
@@ -112,10 +112,10 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
             const result = await response.json();
             if (result.status) {
                 Swal.fire({
-                    title: 'تنبيه',
+                    title: 'Alert',
                     text: result.message,
                     icon: 'success',
-                    confirmButtonText: 'موافق',
+                    confirmButtonText: 'ok',
                     showConfirmButton:false,
                     timer: 1000,
                     showCancelButton: false,
@@ -129,10 +129,10 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
                 setDateOfBirth('');
             } else {
                 Swal.fire({
-                    title: 'تنبيه',
+                    title: 'Alert',
                     text: result.message,
                     icon: 'error',
-                    confirmButtonText: 'موافق',
+                    confirmButtonText: 'ok',
                     showConfirmButton:false,
                     timer: 2000,
                     showCancelButton: false,
@@ -141,10 +141,10 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
             }
         } catch (error) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'حدث خطأ',
+                title: 'Alert',
+                text: 'An error occurred',
                 icon: 'error',
-                confirmButtonText: 'موافق',
+                confirmButtonText: 'ok',
                 showConfirmButton:false,
                 timer: 1000,
                 showCancelButton: false,
@@ -164,10 +164,10 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
     return (
         <div className="addCustomer-modal">
             <div className="addCustomer-modal-content">
-                <h2>إضافة عميل</h2>
+                <h2>Add Customer</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="name">الاسم:</label>
+                        <label htmlFor="name">Name:</label>
                         <input
                             type="text"
                             id="name"
@@ -176,7 +176,7 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="email">البريد الإلكتروني:</label>
+                        <label htmlFor="email">Email: </label>
                         <input
                             type="email"
                             id="email"
@@ -185,7 +185,7 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="phone">رقم الهاتف:</label>
+                        <label htmlFor="phone">Phone: </label>
                         <input
                             type="text"
                             id="phone"
@@ -194,7 +194,7 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="address">العنوان:</label>
+                        <label htmlFor="address">Address: </label>
                         <input
                             type="text"
                             id="address"
@@ -203,7 +203,7 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="dateOfBirth">تاريخ الميلاد:</label>
+                        <label htmlFor="dateOfBirth">Date Of Birth: </label>
                         <input
                             type="date"
                             id="dateOfBirth"
@@ -213,10 +213,10 @@ const AddCustomer = ({ onClose, onCustomerAdded }) => {
                     </div>
                     <div className="addCustomer-modal-actions">
                         <button type="submit" className="add-customer-button" disabled={isLoading}>
-                            {isLoading ? 'جاري الإضافه...' : 'إضافة'}
+                            {isLoading ? 'Adding...' : 'Add'}
                         </button>
                         <button type="button" className="close-button" onClick={onClose}>
-                            إغلاق
+                            Close
                         </button>
                     </div>
                 </form>

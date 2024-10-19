@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AddUser from './AddUser';
 import EditUserModal from './EditUser';
 import Swal from 'sweetalert2';
-import { getToken, getUserId } from '../../Utility/cookieUtils';
+import { getToken, getUserId, getUserType } from '../../Utility/cookieUtils';
 
 const UserTable = () => {
   const navigate = useNavigate();
@@ -19,12 +19,10 @@ const UserTable = () => {
   const [showEditUserModal, setShowEditUserModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const itemsPerPage = 10;
+  const [userType, setUserType] = useState(null);
 
   const fetchUsers = async () => {
-    if (!getUserId()) {
-      navigate('/login');
-    } else {
-      try {
+          try {
         const response = await fetch(`${API_BASE_URL}People/User/GetAllUsers`, {
           method: 'POST',
           headers: {
@@ -49,21 +47,27 @@ const UserTable = () => {
       } finally {
         setLoading(false);
       }
-    }
+    
   };
 
   useEffect(() => {
+    if (!getUserId()) {
+      navigate('/login');
+    } else if(getUserType()!=='ad'){
+      navigate('/unauthorized');
+    }else {
     fetchUsers();
+    }
   }, [currentPage, searchTerm]);
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: 'تأكيد الحذف',
-      text: 'حذف المستخدم؟',
+      title: 'Delete Process',
+      text: 'Do you want to delete user?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'حذف',
-      cancelButtonText: 'إغلاق',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Close',
       reverseButtons: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -79,7 +83,7 @@ const UserTable = () => {
           const data = await response.json();
           if (data.status) {
             Swal.fire({
-              title: 'عملية الحذف',
+              title: 'Delete Process',
               text: data.message,
               icon: 'success',
               timer: 1000,
@@ -100,7 +104,7 @@ const UserTable = () => {
             });
           }
         } catch (error) {
-          console.log('خطأ', 'حدث خطأ أثناء الحذف', 'error');
+          console.log('Error', 'An error occurred while deleting', 'error');
         }
       }
     });
@@ -130,17 +134,17 @@ const UserTable = () => {
   };
 
   if (loading) {
-    return <div>جاري التحميل...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>خطأ: {error}</div>;
+    return <div>Error: {error}</div>;
   }
 
   return (
     <div className="user-table">
       <button onClick={() => setShowAddUserModal(true)} className="add-user-btn">
-        إضافة مستخدم
+        Add User
       </button>
       {showAddUserModal && (
         <AddUser
@@ -156,16 +160,16 @@ const UserTable = () => {
           onUserUpdated={handleUserUpdated}
         />
       )}
-            <h1 className="product-list-title">قائمة المستخدمين</h1> 
+            <h1 className="product-list-title">Users List</h1> 
 
       <table className="styled-table">
         <thead>
           <tr>
-            <th>م</th>
-            <th>الاسم</th>
-            <th>البريد الإلكتروني</th>
-            <th>اسم المستخدم</th>
-            <th>الحدث</th>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -173,7 +177,7 @@ const UserTable = () => {
             <td colSpan="5">
               <input
                 type="text"
-                placeholder="بحث في المستخدمين..."
+                placeholder="Search in users..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
@@ -183,7 +187,7 @@ const UserTable = () => {
           {users.length === 0 ? (
             <tr>
               <td colSpan="5" style={{ textAlign: 'center' }}>
-                لايوجد مستخدمين
+                No Users Found
               </td>
             </tr>
           ) : (
@@ -195,10 +199,10 @@ const UserTable = () => {
                 <td>{user.userName}</td>
                 <td>
                   <button onClick={() => handleEdit(user.id)} className="edit-btn">
-                    تعديل
+                    Edit
                   </button>
                   <button onClick={() => handleDelete(user.id)} className="delete-btn">
-                    حذف
+                    Delete
                   </button>
                 </td>
               </tr>

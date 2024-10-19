@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import API_BASE_URL from '../../config/apiConfig';
 import './EditCustomer.css';
 import Swal from 'sweetalert2';
-import { getToken } from '../../Utility/cookieUtils';
+import { getToken, getUserType } from '../../Utility/cookieUtils';
 
 const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
     const [customer, setCustomer] = useState(null);
@@ -24,10 +24,10 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
                     setCustomer(data);
                 } else {
                     Swal.fire({
-                        title: 'تنبيه',
+                        title: 'Alert',
                         text: data.message,
                         icon: 'error',
-                        confirmButtonText: 'موافق',
+                        confirmButtonText: 'ok',
                         timer: 2000,
                         showConfirmButton:false,
                         showCancelButton: false,
@@ -50,10 +50,10 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
 
         if (!customer.name) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'الاسم مطلوب',
+                title: 'Alert',
+                text: 'Name is required',
                 icon: 'error',
-                confirmButtonText: 'موافق',
+                confirmButtonText: 'ok',
                 showConfirmButton:false,
                 timer: 2000,
                 showCancelButton: false,
@@ -65,10 +65,10 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
 
         if (!customer.email) {
             Swal.fire({
-                title: 'تنبيه',
-                text: 'البريد الإلكتروني مطلوب',
+                title: 'Alert',
+                text: 'Email is required',
                 icon: 'error',
-                confirmButtonText: 'موافق',
+                confirmButtonText: 'ok',
                 showConfirmButton:false,
                 timer: 2000,
                 showCancelButton: false,
@@ -98,10 +98,10 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
             const data = await response.json();
             if (data.status) {
                 Swal.fire({
-                    title: 'نجاح',
+                    title: 'Success',
                     text: data.message,
                     icon: 'success',
-                    confirmButtonText: 'موافق',
+                    confirmButtonText: 'ok',
                     showConfirmButton:false,
                     timer: 1000,
                     showCancelButton: false,
@@ -111,10 +111,10 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
                 onClose();
             } else {
                 Swal.fire({
-                    title: 'تنبيه',
+                    title: 'Alert',
                     text: data.message,
                     icon: 'error',
-                    confirmButtonText: 'موافق',
+                    confirmButtonText: 'ok',
                     showConfirmButton:false,
                     timer: 2000,
                     showCancelButton: false,
@@ -135,20 +135,20 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
     };
 
     if (loading) {
-        return <div>جاري التحميل...</div>;
+        return <div>Loading...</div>;
     }
 
     if (error) {
-        return <div>خطأ: {error}</div>;
+        return <div>Error: {error}</div>;
     }
 
     return (
         <div className="editCustomer-modal">
             <div className="editCustomer-modal-content">
-                <h2>تعديل العميل</h2>
+                <h2>Edit Customer</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label>الاسم:</label>
+                        <label>Name: </label>
                         <input
                             type="text"
                             value={customer.name}
@@ -156,7 +156,7 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>البريد الإلكتروني:</label>
+                        <label>Email:</label>
                         <input
                             type="email"
                             value={customer.email}
@@ -164,7 +164,7 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>رقم الهاتف:</label>
+                        <label>Phone:</label>
                         <input
                             type="text"
                             value={customer.phone}
@@ -172,7 +172,7 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>العنوان:</label>
+                        <label>Address:</label>
                         <input
                             type="text"
                             value={customer.address}
@@ -180,7 +180,7 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>تاريخ الميلاد:</label>
+                        <label>Date Of Birth:</label>
                         <input
                             type="date"
                             value={customer.dateOfBirthStr}
@@ -188,8 +188,8 @@ const EditCustomerModal = ({ customerId, onClose, onCustomerUpdated }) => {
                         />
                     </div>
                     <div className="editCustomer-modal-buttons">
-                        <button type="submit" className="update-btn">تعديل</button>
-                        <button type="button" onClick={onClose} className="close-btn">إغلاق</button>
+                        <button type="submit" className="update-btn">Edit</button>
+                        <button type="button" onClick={onClose} className="close-btn">Close</button>
                     </div>
                 </form>
             </div>

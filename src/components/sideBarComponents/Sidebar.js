@@ -17,17 +17,17 @@ const Sidebar = () => {
             <img src={managementLogo} alt="Management Logo" className="sidebar-logo" />
             <ul>
                 <li>
-                    <Link to="/products">المنتجات</Link>
+                    <Link to="/products">Products</Link>
                 </li>
                 <li>
-                    <Link to="/orderList">الطلبات</Link>
+                    <Link to="/orderList">Orders</Link>
                 </li>
                 <li>
-                    <Link to="/customers">العملاء</Link>
+                    <Link to="/customers">Customers</Link>
                 </li>
                 <li>
                 <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}>
-                        تسجيل الخروج
+                        Log out
                     </button>
                 </li>
             </ul>

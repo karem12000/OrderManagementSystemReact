@@ -81,10 +81,10 @@ const OrderList = () => {
      var result = await response.json();
      if (result.status) {
       Swal.fire({
-        title: 'تنبيه',
+        title: 'Alert',
         text: result.message,
         icon: 'success',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 1000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -93,10 +93,10 @@ const OrderList = () => {
       closeModal();
      }else{
       Swal.fire({
-        title: 'تنبيه',
+        title: 'Alert',
         text: result.message,
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -105,10 +105,10 @@ const OrderList = () => {
      }
     }catch(e){
       Swal.fire({
-        title: 'تنبيه',
-        text: 'حدث خطأ',
+        title: 'Alert',
+        text: 'An error occurred',
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         allowOutsideClick: false, 
@@ -129,10 +129,10 @@ const OrderList = () => {
      var result = await response.json();
      if (result.status) {
       Swal.fire({
-        title: 'تنبيه',
+        title: 'Alert',
         text: result.message,
         icon: 'success',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 1000,
         showCancelButton: false, 
         showConfirmButton: false,
@@ -142,10 +142,10 @@ const OrderList = () => {
       fetchOrders();
      }else{
       Swal.fire({
-        title: 'تنبيه',
+        title: 'Alert',
         text: result.message,
         icon: 'error',
-        confirmButtonText: 'موافق', 
+        confirmButtonText: 'ok', 
         timer: 2000,
         showCancelButton: false, 
         showConfirmButton:false,
@@ -156,33 +156,33 @@ const OrderList = () => {
   };
 
   if (loading) {
-    return <div>جاري التحميل...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>خطأ: {error}</div>;
+    return <div>Error: {error}</div>;
   }
 
   return (
     <div className="orders-table">
-      <h1>قائمة الطلبات</h1>
+      <h1>Orders List</h1>
 
       <table className="styled-table">
         <thead>
           <tr>
-            <th>م</th>
-            <th>اسم العميل</th>
-            <th>تاريخ الطلب</th>
-            <th>المبلغ الإجمالي</th>
-            <th>الحالة</th>
-            <th>الحدث</th>
+            <th>#</th>
+            <th>Customer Name</th>
+            <th>Order Date</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {orders.length === 0 ? (
             <tr>
               <td colSpan="6" style={{ textAlign: 'center' }}>
-                لا توجد طلبات
+                No Orders Found
               </td>
             </tr>
           ) : (
@@ -195,7 +195,7 @@ const OrderList = () => {
                 <td>{order.statusStr}</td>
                 <td>
                   <button onClick={() => handleShowOrderDetails(order)} className="show-order-details-btn">
-                    عرض تفاصيل الطلب
+                    Show Order Details
                   </button>
                 </td>
               </tr>

@@ -1,18 +1,20 @@
 import './login.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import alertify from 'alertifyjs';
 import 'alertifyjs/build/css/themes/bootstrap.css'; 
 import API_BASE_URL from '../../config/apiConfig';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import Modal from 'react-modal';
+import ViewOrdersModal from '../orderComponents/ViewOrdersModal';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
+    const [showOrdersModal, setShowOrdersModal] = useState(false);
+
     const [registerInfo, setRegisterInfo] = useState({
         email: '',
         password: '',
@@ -25,10 +27,10 @@ const Login = () => {
         try {
             if(!username || !password){
                 Swal.fire({
-                    title: 'خطأ!',
-                    text: 'برجاء إدخال بيانات الدخول',
+                    title: 'Error',
+                    text: 'Please enter login Data',
                     icon: 'error',
-                    confirmButtonText: 'تم',
+                    confirmButtonText: 'ok',
                     showConfirmButton:false,
                     showCancelButton:false, 
                     timer: 2000,
@@ -42,13 +44,16 @@ const Login = () => {
                     if(response.data.results.token){
                         Cookies.set('token', response.data.results.token , { expires: 7 });
                         Cookies.set('userId', response.data.results.id , { expires: 7 });
+                        if(response.data.results.isAdmin){
+                            Cookies.set('userType', 'ad' , { expires: 7 });
+                        }
                         navigate('/Products');
                     } else {
                         Swal.fire({
-                            title: 'خطأ!',
-                            text: 'حدث خطأ',
+                            title: 'Error',
+                            text: 'An error occurred',
                             icon: 'error',
-                            confirmButtonText: 'تم',
+                            confirmButtonText: 'ok',
                             showCancelButton:false,
                             showConfirmButton:false,
                             timer: 2000,
@@ -56,10 +61,10 @@ const Login = () => {
                     }
                 } else {
                     Swal.fire({
-                        title: 'خطأ!',
+                        title: 'Error',
                         text: response.data.messages,
                         icon: 'error',
-                        confirmButtonText: 'تم',
+                        confirmButtonText: 'ok',
                         showCancelButton:false,
                         showConfirmButton:false,
                         timer: 2000,
@@ -71,12 +76,18 @@ const Login = () => {
         }
     };
 
+
     const handleOrderNavigation = () => {
         navigate('/ProductCardList');
     };
 
     const openRegisterModal = () => {
         setRegisterModalOpen(true);
+    };
+
+    const openOrderModal = (status,e) => {
+        e.preventDefault();
+        setShowOrdersModal(true);
     };
 
     const closeRegisterModal = () => {
@@ -97,10 +108,10 @@ const Login = () => {
 
             if (response.data.status) {
                 Swal.fire({
-                    title: 'تم التسجيل بنجاح!',
-                    text: 'تم تسجيلك بنجاح، يمكنك الآن تسجيل الدخول',
+                    title: 'Registered Successfully',
+                    text: 'You have successfully registered, you can now log in',
                     icon: 'success',
-                    confirmButtonText: 'تم',
+                    confirmButtonText: 'ok',
                     showConfirmButton:false,
                     showCancelButton: false,
                     timer:2000
@@ -108,10 +119,10 @@ const Login = () => {
                 closeRegisterModal();
             } else {
                 Swal.fire({
-                    title: 'خطأ!',
+                    title: 'Error',
                     text: response.data.messages,
                     icon: 'error',
-                    confirmButtonText: 'تم',
+                    confirmButtonText: 'ok',
                     showConfirmButton:false,
                     showCancelButton:false,
                     timer: 2000,
@@ -124,14 +135,14 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h2>تسجيل الدخول</h2>
+            <h2>Login</h2>
             <form onSubmit={handleLogin}>
                 <div>
                     <input
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder="أدخل البريد الإلكتروني"
+                        placeholder="Enter Email"
                     />
                 </div>
                 <div>
@@ -139,12 +150,15 @@ const Login = () => {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="أدخل كلمة المرور"
+                        placeholder="Enter Password"
                     />
                 </div>
-                <button type="submit">دخول</button>
+                <button type="submit">Login</button>
                 <button onClick={handleOrderNavigation} className="order-button">
-                  طلب منتجات
+                  Order Products
+                </button>
+                <button onClick={(e) => openOrderModal(true,e)} className="order-button">
+                    Follow Up Orders
                 </button>
                 {/* <button onClick={openRegisterModal} className="order-button">
                   تسجيل مستخدم
@@ -158,47 +172,53 @@ const Login = () => {
                 className="register-modal"
                 overlayClassName="register-modal-overlay"
             >
-                <h2>تسجيل مستخدم جديد</h2>
+                <h2>Registe New Password</h2>
                 <form>
                     <div>
-                        <label>الاسم الكامل</label>
+                        <label>FullName</label>
                         <input
                             type="text"
                             name="fullName"
                             value={registerInfo.fullName}
                             onChange={handleRegisterChange}
-                            placeholder="أدخل الاسم الكامل"
+                            placeholder="Enter full name"
                         />
                     </div>
                     <div>
-                        <label>البريد الإلكتروني</label>
+                        <label>Email</label>
                         <input
                             type="email"
                             name="email"
                             value={registerInfo.email}
                             onChange={handleRegisterChange}
-                            placeholder="أدخل البريد الإلكتروني"
+                            placeholder="Enter Email"
                         />
                     </div>
                     <div>
-                        <label>كلمة المرور</label>
+                        <label>Password</label>
                         <input
                             type="password"
                             name="password"
                             value={registerInfo.password}
                             onChange={handleRegisterChange}
-                            placeholder="أدخل كلمة المرور"
+                            placeholder="Enter Password"
                         />
                     </div>
                     <button type="button" onClick={handleRegisterSubmit}>
-                        تسجيل
+                        Register
                     </button>
                     <button type="button" onClick={closeRegisterModal}>
-                        إلغاء
+                        Cancel
                     </button>
                 </form>
             </Modal>
+            {showOrdersModal && (
+        <ViewOrdersModal
+          onClose={() => setShowOrdersModal(false)}
+        />
+      )}
         </div>
+        
     );
 };
 

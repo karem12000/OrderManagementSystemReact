@@ -57,7 +57,6 @@ input[type="date"] {
     border-radius: 4px;
     box-sizing: border-box; 
     transition: border-color 0.3s ease-in-out;
-    direction: rtl;
 }
 
 input[type="text"]:focus,

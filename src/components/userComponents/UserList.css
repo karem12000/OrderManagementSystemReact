@@ -54,11 +54,13 @@
 .edit-btn {
     background-color: #007bff;
     color: white;
+    border-radius:5px ;
 }
 
 .delete-btn {
     background-color: #dc3545;
     color: white;
+    border-radius:5px ;
 }
 
 .pagination {

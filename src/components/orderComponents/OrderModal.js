@@ -21,8 +21,8 @@ const OrderModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo, cart, se
   const handleQuantityChange = (id, quantity) => {
     if(quantity<=0 || isNaN(quantity)){
       Swal.fire({
-        title: 'تنبيه',
-        text: 'تأكد من إدخال الكمبة',
+        title: 'Alert',
+        text: 'Make sure to enter the quantity',
         icon: 'error',
         showConfirmButton: false, 
         timer: 2000,
@@ -42,12 +42,12 @@ const OrderModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo, cart, se
     e.preventDefault(); 
   
     Swal.fire({
-      title: 'تنبيه',
-      text: 'هل تريد إزالة المنتج',
+      title: 'Alert',
+      text: 'Do you want to remove the product?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'إزاله',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: 'Remove',
+      cancelButtonText: 'Cancel',
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
@@ -55,10 +55,10 @@ const OrderModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo, cart, se
           const updatedCart = prevCart.filter((item) => item.id !== id);
           if (updatedCart.length === 0) {
             Swal.fire({
-              title: 'سلة التسوق فارغة',
-              text: 'لقد تمت إزالة جميع المنتجات من السلة.',
+              title: 'Shopping cart is empty',
+              text: 'All products have been removed from the cart.',
               icon: 'info',
-              confirmButtonText: 'موافق',
+              confirmButtonText: 'ok',
               showConfirmButton:false,
               showCancelButton:false,
               timer:2000
@@ -76,21 +76,21 @@ const OrderModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo, cart, se
   return (
     <div className="orderModal-overlay">
       <div className="orderModal-content">
-        <h2>إكمال الطلب</h2>
-        <h3>البيانات الشخصية</h3>
+        <h2>Complete Order</h2>
+        <h3>Personal Data</h3>
         <form onSubmit={handleFormSubmit} className="user-info-form">
           <div className="form-row">
             <input
               type="text"
               name="name"
-              placeholder="الاسم"
+              placeholder="Name"
               value={userInfo.name}
               onChange={handleInputChange}
             />
             <input
               type="email"
               name="email"
-              placeholder="البريد الإلكتروني"
+              placeholder="Email"
               value={userInfo.email}
               onChange={handleInputChange}
             />
@@ -99,14 +99,14 @@ const OrderModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo, cart, se
             <input
               type="text"
               name="phone"
-              placeholder="رقم الهاتف"
+              placeholder="Phone"
               value={userInfo.phone}
               onChange={handleInputChange}
             />
             <input
               type="text"
               name="address"
-              placeholder="العنوان"
+              placeholder="Address"
               value={userInfo.address}
               onChange={handleInputChange}
             />
@@ -115,20 +115,20 @@ const OrderModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo, cart, se
             <input
               type="date"
               name="dob"
-              placeholder="تاريخ الميلاد"
+              placeholder="Date Of Birth"
               value={userInfo.dob}
               onChange={handleInputChange}
             />
           </div>
   
-          <h3>المنتجات المضافة إلى السلة:</h3>
+          <h3>Products added to cart</h3>
           <table className="order-items-table">
             <thead>
               <tr>
-                <th>م</th>
-                <th>المنتج</th>
-                <th>الكمية</th>
-                <th>الإجراء</th>
+                <th>#</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -146,7 +146,7 @@ const OrderModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo, cart, se
                   </td>
                   <td>
                     <button className="remove-btn" onClick={(e) => handleRemoveProduct(item.id,e)}>
-                      إزالة
+                      Remove
                     </button>
                   </td>
                 </tr>
@@ -155,8 +155,8 @@ const OrderModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo, cart, se
           </table>
   
           <div className="button-row">
-            <button type="submit" className="submit-btn">إرسال الطلب</button>
-            <button type="button" onClick={onClose} className="cancel-btn">إلغاء</button>
+            <button type="submit" className="submit-btn">Submit Order</button>
+            <button type="button" onClick={onClose} className="cancel-btn">Cancel</button>
           </div>
         </form>
       </div>
