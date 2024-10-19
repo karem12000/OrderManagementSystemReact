@@ -1,0 +1,96 @@
+.user-table {
+    width: 100%;
+    margin-top: 5%;
+    height: 100vh;
+}
+
+.search-input {
+    margin-bottom: 15px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.styled-table tr:nth-child(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.styled-table tr:hover {
+    background-color: #ddd;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: #0056b3;
+}
+
+.add-user-btn {
+    background-color: #28a745; 
+    color: white; 
+    border: none;
+    padding: 10px 20px; 
+    margin-bottom: 10px; 
+    cursor: pointer; 
+    border-radius: 5px; 
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.add-user-btn:hover {
+    background-color: #218838; 
+}
